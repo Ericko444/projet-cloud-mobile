@@ -1,0 +1,29 @@
+.col-icon-list{
+    width:0%;
+}
+.card-signalement{
+    display: flex;
+    flex-direction: column;
+    width: 100% !important;
+    margin: 0 !important
+}
+.col-etat-list{
+    background-color: green;
+}
+.col-etat-fini{
+    background-color: green;
+}
+.col-etat-traitement{
+    background-color:yellow;
+}
+.col-etat-envoye{
+    background-color:red;
+}
+.icon-signalement{
+    margin-top: 200%;
+    width: 200%;
+}
+.error-message{
+    color:red;
+    text-align: center;
+}

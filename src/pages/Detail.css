@@ -1,0 +1,37 @@
+.image{
+    border-style: solid;
+    border: 1px;
+    border-color: white;
+}
+.lastImage{
+    border-style: solid;
+    /* border-top: 1px;
+    border-left: 1px;
+    border-right: 2px; */
+}
+.header-image{
+    background-color: rgb(226, 226, 226);
+    /* background-color: green; */
+    color:Black;
+    text-align: center;
+}
+
+.header-detail-fini{
+    background-color: rgb(41, 201, 41);
+    color:white;
+}
+.header-detail-traitement{
+    background-color: rgb(233, 233, 74);
+    color:black;
+}
+.header-detail-envoye{
+    background-color: rgb(250, 82, 82);
+    color:white;
+}
+.div-desc{
+    width:100%;
+}
+.text-style{
+    font-style: normal;
+    font-weight: bold;
+}
