@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "signalement",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}
