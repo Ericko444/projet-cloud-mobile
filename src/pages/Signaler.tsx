@@ -29,6 +29,7 @@ import styled from 'styled-components';
 import { type } from 'os';
 import { useHistory } from 'react-router'
 import { Base64 } from '@ionic-native/base64';
+import Header from '../components/Header'
 
 interface CustomError {
   showError: boolean
@@ -140,6 +141,7 @@ const Signaler: React.FC = () => {
   }
   return (
     <IonPage>
+      <Header></Header>
       <IonContent fullscreen>
         <IonHeader>
           <IonToolbar>

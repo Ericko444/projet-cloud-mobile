@@ -1,6 +1,7 @@
 import { IonAvatar, IonContent, IonHeader, IonItem, IonLabel, IonPage, IonTitle, IonToolbar,IonList,IonCardHeader,IonCardSubtitle,IonCardTitle,IonCard,IonCardContent, IonRow,IonGrid,IonCol,IonImg } from '@ionic/react';
 import React,{useState,useEffect} from 'react';
 import ExploreContainer from '../components/ExploreContainer';
+import Header from '../components/Header';
 import './Home.css';
 // import check from '../assets/icon/checked.png';
 
@@ -13,7 +14,7 @@ const Home: React.FC = () => {
     SignalementGet();
 },[])
 
-  function getClassNameCol(signalement){
+  function getClassNameCol(signalement:any){
     if(signalement.dateTraitement==null && signalement.dateFinition==null){
         return "col-etat-envoye";
     }else if(signalement.dateFinition==null && signalement.dateTraitement!=null){
@@ -22,7 +23,7 @@ const Home: React.FC = () => {
         return "col-etat-fini";
     }
   }
-  function getIcon(signalement){
+  function getIcon(signalement:any){
     if(signalement.dateTraitement==null && signalement.dateFinition==null){
         // return "assets/icon/pending.png";
         return "";
@@ -51,19 +52,7 @@ const Home: React.FC = () => {
 }
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar className='toolbar'>
-          <IonItem lines='none' className='tool-item'>
-          <IonAvatar slot='start'>
-            <img src='https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg'></img>
-          </IonAvatar>
-          <IonLabel>
-            <p>Hello,</p>
-            <h3>RAKOTO Jean</h3>
-          </IonLabel>
-        </IonItem>
-        </IonToolbar>
-      </IonHeader>
+      <Header></Header>
       <IonContent fullscreen>
         {/* <ExploreContainer name="Home page" /> */}
         <p className="error-message">{erreur}</p>
