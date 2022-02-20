@@ -1,7 +1,8 @@
-import { IonAvatar, IonContent, IonHeader, IonItem, IonLabel, IonPage, IonTitle, IonToolbar,IonList,IonCardHeader,IonCardSubtitle,IonCardTitle,IonCard,IonCardContent, IonRow,IonGrid,IonCol,IonImg } from '@ionic/react';
+import { IonAvatar, IonContent, IonHeader, IonItem, IonLabel, IonPage, IonTitle, IonToolbar,IonList,IonCardHeader,IonCardSubtitle,IonCardTitle,IonCard,IonCardContent, IonRow,IonGrid,IonCol,IonImg, IonListHeader } from '@ionic/react';
 import React,{useState,useEffect} from 'react';
 import ExploreContainer from '../components/ExploreContainer';
 import Header from '../components/Header';
+import MarginHeader from '../components/MarginHeader';
 import './Home.css';
 // import check from '../assets/icon/checked.png';
 
@@ -52,10 +53,16 @@ const Home: React.FC = () => {
 }
   return (
     <IonPage>
-      <Header></Header>
-      <IonContent fullscreen>
         {/* <ExploreContainer name="Home page" /> */}
         <p className="error-message">{erreur}</p>
+      <IonContent fullscreen>
+        <MarginHeader></MarginHeader>
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle>Vos signalements</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonListHeader>Liste</IonListHeader>
         <IonList>
           {signalements.map((s,index)=>{
             var link="/detail/"+s.id;

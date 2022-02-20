@@ -19,17 +19,18 @@ import {
   IonToast,
   IonToolbar,
 } from '@ionic/react'
-import { camera } from 'ionicons/icons'
+import { camera, addOutline } from 'ionicons/icons'
 import { useEffect, useState } from 'react'
 import ExploreContainer from '../components/ExploreContainer'
 import { useLocation } from '../hooks/useLocation'
 import { usePhotoGallery } from '../hooks/usePhotoGallery'
 import './Signaler.css'
-import styled from 'styled-components';
-import { type } from 'os';
+import styled from 'styled-components'
+import { type } from 'os'
 import { useHistory } from 'react-router'
 import { Base64 } from '@ionic-native/base64';
 import Header from '../components/Header'
+import MarginHeader from '../components/MarginHeader'
 
 interface CustomError {
   showError: boolean
@@ -41,25 +42,25 @@ interface CustomSuccess {
   message?: string
 }
 
-interface TypeSignalement{
-  id: string,
+interface TypeSignalement {
+  id: string
   nom: string
 }
 
 const Signaler: React.FC = () => {
   useEffect(() => {
     TypeGet()
-  }, []);
+  }, [])
   const { photos, takePhoto, base64s, setBase64s } = usePhotoGallery()
-  const [typeSignalement, setTypeSignalement] = useState<string>("")
+  const [typeSignalement, setTypeSignalement] = useState<string>('')
   const [description, setDescription] = useState('')
   const { position, getLocation } = useLocation()
   const [error, setError] = useState<CustomError>({ showError: false })
   const [success, setSuccess] = useState<CustomSuccess>({ showSuccess: false })
-  const [types, setTypes] = useState<TypeSignalement[]>([]);
+  const [types, setTypes] = useState<TypeSignalement[]>([])
   const token =
-  'Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJVc2VyLTE1Iiwic3ViIjoicmFrb3RvYm9iQGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE2NDUyNDczNTEsImV4cCI6MTY0NTg0NzM1MX0.I9Tpx6I3xTB1JdlLvNyKw80djb7ZSuG0UjHl28oXbMaHaXjTcw6SlQZAchs2N8BH4kFaGdBPuMS9ms-uwGNiNg'
-  const history = useHistory();
+    'Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJVc2VyLTE1Iiwic3ViIjoicmFrb3RvYm9iQGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE2NDUzNDE1OTgsImV4cCI6MTY0NTk0MTU5OH0.KY9v-QhdbSk4T0f4OfC3_g4eNUsDCERX7ajZDltrfNgJjfAAEq0qyIw_ZoH8kYN9RicMbGWwbeEiRTLa67-xsw'
+  const history = useHistory()
   const TypeGet = () => {
     fetch('https://projet-cloud-signal.herokuapp.com/api/typesignalement/', {
       method: 'GET',
@@ -74,7 +75,7 @@ const Signaler: React.FC = () => {
         console.log(result)
         setTypes(result)
       })
-      .catch((error) => alert("Erreur fetch types"))
+      .catch((error) => alert('Erreur fetch types'))
   }
   const uploadSignalement = () => {
     var files: string[] = []
@@ -86,9 +87,9 @@ const Signaler: React.FC = () => {
     //   })
     //   files.push(fileData)
     // })
-    base64s.forEach(element => {
-      files.push(element.dataUrl!);
-    });
+    base64s.forEach((element) => {
+      files.push(element.dataUrl!)
+    })
     var date = new Date().toISOString()
     date = date.slice(0, 19)
     getLocation()
@@ -114,7 +115,6 @@ const Signaler: React.FC = () => {
 
     var url = 'https://projet-cloud-signal.herokuapp.com/api/signalement'
 
-   
     fetch(url, {
       method: 'POST',
       headers: {
@@ -130,9 +130,9 @@ const Signaler: React.FC = () => {
           showSuccess: true,
           message: 'Votre signalement a été envoyé',
         })
-        setBase64s([]);
-        setDescription("");
-        setTypeSignalement("");
+        setBase64s([])
+        setDescription('')
+        setTypeSignalement('')
         history.push('/home')
       })
       .catch((error) => setError({ showError: true, message: error }))
@@ -141,31 +141,20 @@ const Signaler: React.FC = () => {
   }
   return (
     <IonPage>
-      <Header></Header>
       <IonContent fullscreen>
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>Signalement</IonTitle>
-          </IonToolbar>
-        </IonHeader>
+        <MarginHeader></MarginHeader>
         <IonContent>
           <IonItem>
-            <IonLabel position="stacked">Vos images</IonLabel>
-            <IonGrid>
-              <IonRow>
-                {base64s.map((photo, index) => (
-                  <IonCol size="4" key={index}>
-                    <IonImg src={photo.dataUrl} />
-                  </IonCol>
-                ))}
-              </IonRow>
-            </IonGrid>
-          </IonItem>
-          <IonItem>
             <IonLabel position="stacked">Type de signalement</IonLabel>
-            <select name="typeSignalement"  value={typeSignalement} onChange={(e:any) => setTypeSignalement(e.target.value)}>
+            <select
+              name="typeSignalement"
+              value={typeSignalement}
+              onChange={(e: any) => setTypeSignalement(e.target.value)}
+            >
               {types.map((type) => (
-                <option value={JSON.stringify(type)} key={type.id}>{type.nom}</option>
+                <option value={JSON.stringify(type)} key={type.id}>
+                  {type.nom}
+                </option>
               ))}
             </select>
           </IonItem>
@@ -176,6 +165,24 @@ const Signaler: React.FC = () => {
               onIonChange={(e: any) => setDescription(e.target.value)}
             ></IonTextarea>
           </IonItem>
+          <IonItem>
+            <IonLabel position="stacked">Vos images</IonLabel>
+            <IonGrid>
+              <IonRow>
+                {base64s.map((photo, index) => (
+                  <IonCol size="4" key={index}>
+                   <img src={photo.dataUrl}></img>
+                  </IonCol>
+                ))}
+                <IonCol size="4">
+                  <IonButton color="primary" className='tof' onClick={() => takePhoto()}>
+                    <IonIcon icon={addOutline} className='tof-add'></IonIcon>
+                    Ajouter
+                  </IonButton>
+                </IonCol>
+              </IonRow>
+            </IonGrid>
+          </IonItem>
           <IonButton
             color="primary"
             expand="block"
@@ -183,11 +190,6 @@ const Signaler: React.FC = () => {
           >
             Valider signalement
           </IonButton>
-          <IonFab vertical="top" horizontal="center" slot="fixed">
-            <IonFabButton onClick={() => takePhoto()}>
-              <IonIcon icon={camera}></IonIcon>
-            </IonFabButton>
-          </IonFab>
         </IonContent>
       </IonContent>
       <IonToast

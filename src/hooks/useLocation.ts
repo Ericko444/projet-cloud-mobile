@@ -18,6 +18,7 @@ export function useLocation(){
             setLoading(false);
         }catch(e){
             const message = "Cannot get user location";
+            alert(message);
             setError({ showError: true, message: message});
             setLoading(false);
         }
