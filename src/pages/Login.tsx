@@ -35,7 +35,7 @@ const Login: React.FC = () => {
     const formData = new FormData()
     formData.append('login', email!)
     formData.append('mdp', password!)
-    fetch('http://localhost:8080/api/utilisateur/auth/login', {
+    fetch('https://projet-cloud-signal.herokuapp.com/api/utilisateur/auth/login', {
       method: 'POST',
       body: formData
     })
