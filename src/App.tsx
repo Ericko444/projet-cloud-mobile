@@ -33,6 +33,8 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import Detail from './pages/Detail';
+import Login from './pages/Login';
 
 setupIonicReact();
 
@@ -56,8 +58,11 @@ const App: React.FC = () => (
           <Route path="/notifications">
             <Notifications />
           </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
           <Route exact path="/">
-            <Redirect to="/home" />
+            <Redirect to="/login" />
           </Route>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
