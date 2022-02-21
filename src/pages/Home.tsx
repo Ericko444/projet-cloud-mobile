@@ -1,7 +1,5 @@
-import { IonAvatar, IonContent, IonHeader, IonItem, IonLabel, IonPage, IonTitle, IonToolbar,IonList,IonCardHeader,IonCardSubtitle,IonCardTitle,IonCard,IonCardContent, IonRow,IonGrid,IonCol,IonImg, IonListHeader } from '@ionic/react';
+import { IonContent, IonHeader, IonItem, IonPage, IonTitle, IonToolbar,IonList,IonCardHeader,IonCardSubtitle,IonCardTitle,IonCardContent, IonRow,IonGrid,IonCol,IonImg, IonListHeader } from '@ionic/react';
 import React,{useState,useEffect} from 'react';
-import ExploreContainer from '../components/ExploreContainer';
-import Header from '../components/Header';
 import MarginHeader from '../components/MarginHeader';
 import './Home.css';
 // import check from '../assets/icon/checked.png';
@@ -36,7 +34,7 @@ const Home: React.FC = () => {
     }
   }
   const SignalementGet=()=>{
-    fetch("https://projet-cloud-signal.herokuapp.com/api/signalement/filter/",{
+    fetch("http://localhost:8080/api/signalement/filter/",{
       method: 'GET',
       headers: {
         'Authorization':token,

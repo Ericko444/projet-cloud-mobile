@@ -1,35 +1,24 @@
 import {
+  IonActionSheet,
   IonButton,
   IonCol,
   IonContent,
-  IonFab,
-  IonFabButton,
   IonGrid,
-  IonHeader,
   IonIcon,
   IonImg,
   IonItem,
   IonLabel,
   IonPage,
   IonRow,
-  IonSelect,
-  IonSelectOption,
   IonTextarea,
-  IonTitle,
   IonToast,
-  IonToolbar,
 } from '@ionic/react'
-import { camera, addOutline } from 'ionicons/icons'
+import { addOutline, trash, close } from 'ionicons/icons'
 import { useEffect, useState } from 'react'
-import ExploreContainer from '../components/ExploreContainer'
 import { useLocation } from '../hooks/useLocation'
-import { usePhotoGallery } from '../hooks/usePhotoGallery'
+import { base64Photo, usePhotoGallery } from '../hooks/usePhotoGallery'
 import './Signaler.css'
-import styled from 'styled-components'
-import { type } from 'os'
 import { useHistory } from 'react-router'
-import { Base64 } from '@ionic-native/base64';
-import Header from '../components/Header'
 import MarginHeader from '../components/MarginHeader'
 
 interface CustomError {
@@ -51,7 +40,14 @@ const Signaler: React.FC = () => {
   useEffect(() => {
     TypeGet()
   }, [])
-  const { photos, takePhoto, base64s, setBase64s } = usePhotoGallery()
+  const {
+    photos,
+    takePhoto,
+    base64s,
+    setBase64s,
+    deletePhoto,
+  } = usePhotoGallery()
+  const [photoDelete, setPhotoDelete] = useState<base64Photo>()
   const [typeSignalement, setTypeSignalement] = useState<string>('')
   const [description, setDescription] = useState('')
   const { position, getLocation } = useLocation()
@@ -62,7 +58,7 @@ const Signaler: React.FC = () => {
     'Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJVc2VyLTE1Iiwic3ViIjoicmFrb3RvYm9iQGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE2NDUzNDE1OTgsImV4cCI6MTY0NTk0MTU5OH0.KY9v-QhdbSk4T0f4OfC3_g4eNUsDCERX7ajZDltrfNgJjfAAEq0qyIw_ZoH8kYN9RicMbGWwbeEiRTLa67-xsw'
   const history = useHistory()
   const TypeGet = () => {
-    fetch('https://projet-cloud-signal.herokuapp.com/api/typesignalement/', {
+    fetch('http://localhost:8080/api/typesignalement/', {
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -113,7 +109,7 @@ const Signaler: React.FC = () => {
     formData.append('signalement', sign)
     formData.append('images', arr)
 
-    var url = 'https://projet-cloud-signal.herokuapp.com/api/signalement'
+    var url = 'http://localhost:8080/api/signalement'
 
     fetch(url, {
       method: 'POST',
@@ -171,12 +167,19 @@ const Signaler: React.FC = () => {
               <IonRow>
                 {base64s.map((photo, index) => (
                   <IonCol size="4" key={index}>
-                   <img src={photo.dataUrl}></img>
+                    <IonImg
+                      src={photo.dataUrl}
+                      onClick={() => setPhotoDelete(photo)}
+                    ></IonImg>
                   </IonCol>
                 ))}
                 <IonCol size="4">
-                  <IonButton color="primary" className='tof' onClick={() => takePhoto()}>
-                    <IonIcon icon={addOutline} className='tof-add'></IonIcon>
+                  <IonButton
+                    color="light"
+                    className="tof"
+                    onClick={() => takePhoto()}
+                  >
+                    <IonIcon icon={addOutline} className="tof-add"></IonIcon>
                     Ajouter
                   </IonButton>
                 </IonCol>
@@ -206,6 +209,29 @@ const Signaler: React.FC = () => {
         }
         duration={3000}
       ></IonToast>
+
+      <IonActionSheet
+        isOpen={!!photoDelete}
+        buttons={[
+          {
+            text: 'Delete',
+            role: 'destructive',
+            icon: trash,
+            handler: () => {
+              if (photoDelete) {
+                deletePhoto(photoDelete)
+                setPhotoDelete(undefined)
+              }
+            },
+          },
+          {
+            text: 'Cancel',
+            icon: close,
+            role: 'cancel',
+          },
+        ]}
+        onDidDismiss={() => setPhotoDelete(undefined)}
+      ></IonActionSheet>
     </IonPage>
   )
 }

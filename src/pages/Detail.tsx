@@ -1,34 +1,21 @@
 import {
-  IonAvatar,
   IonContent,
-  IonHeader,
   IonItem,
   IonLabel,
   IonPage,
   IonTitle,
   IonListHeader,
-  IonToolbar,
   IonList,
-  IonCardHeader,
-  IonCardSubtitle,
-  IonCardTitle,
-  IonCard,
-  IonCardContent,
   IonRow,
   IonGrid,
   IonCol,
   IonImg,
-  IonCheckbox,
-  IonToggle,
-  IonInput,
   IonText,
 } from '@ionic/react'
 import React, { useState, useEffect } from 'react'
-import { withRouter, RouteComponentProps } from 'react-router-dom'
-import ExploreContainer from '../components/ExploreContainer'
 import { useParams } from 'react-router'
 import './Detail.css'
-import Header from '../components/Header'
+import MarginHeader from '../components/MarginHeader'
 
 const Detail: React.FC = () => {
   const [erreur, setErreur] = useState('')
@@ -84,7 +71,7 @@ const Detail: React.FC = () => {
   }, [])
   const SignalementGet = () => {
     // alert(id);
-    fetch('https://projet-cloud-signal.herokuapp.com/api/signalement/' + id, {
+    fetch('http://localhost:8080/api/signalement/' + id, {
       method: 'GET',
       headers: {
         Authorization: token,
@@ -101,8 +88,8 @@ const Detail: React.FC = () => {
 
   return (
     <IonPage>
-      <Header></Header>
       <IonContent fullscreen>
+        <MarginHeader></MarginHeader>
         <IonGrid>
           <IonListHeader className={getClassNameHeader(signalement)}>
             <IonTitle>

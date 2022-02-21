@@ -40,6 +40,7 @@ import './theme/variables.css';
 import Detail from './pages/Detail';
 import './theme/variables.css'
 import Header from './components/Header'
+import NotifTab from './components/NotifTab'
 
 setupIonicReact()
 
@@ -78,8 +79,7 @@ const App: React.FC = () => (
             <IonLabel>Signaler</IonLabel>
           </IonTabButton>
           <IonTabButton tab="Notifications" href="/notifications">
-            <IonIcon icon={notifications} />
-            <IonLabel>Notifications</IonLabel>
+            <NotifTab></NotifTab>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>

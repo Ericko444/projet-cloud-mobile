@@ -76,6 +76,10 @@ export function usePhotoGallery() {
     });
     // Storage.set({key: PHOTO_STORAGE,value: JSON.stringify(newPhotos)});
   };
+  const deletePhoto = (photo: base64Photo) => {
+    const afterDelete = base64s.filter(p => p.dataUrl != photo.dataUrl);
+    setBase64s(afterDelete);
+  }
   // const takePhoto = async () => {
   //   const photo = await Camera.getPhoto({
   //     resultType: CameraResultType.Uri,
@@ -97,7 +101,8 @@ export function usePhotoGallery() {
     photos,
     takePhoto,
     base64s,
-    setBase64s
+    setBase64s,
+    deletePhoto
   }
 }
 export interface UserPhoto {
