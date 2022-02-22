@@ -1,4 +1,4 @@
-import { Redirect, Route } from 'react-router-dom'
+import { Redirect, Route, Switch } from 'react-router-dom'
 import {
   IonApp,
   IonAvatar,
@@ -36,53 +36,29 @@ import '@ionic/react/css/flex-utils.css'
 import '@ionic/react/css/display.css'
 
 /* Theme variables */
-import './theme/variables.css';
-import Detail from './pages/Detail';
+import './theme/variables.css'
+import Detail from './pages/Detail'
 import './theme/variables.css'
 import Header from './components/Header'
 import NotifTab from './components/NotifTab'
+import Login from './pages/Login'
+import ProtectedRoute from './routes/ProtectedRoute'
+import HomeContainer from './components/homeContainer/HomeContainer'
 
 setupIonicReact()
 
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      <Header></Header>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/home">
-            <Home />
-          </Route>
-          <Route exact path="/detail/:id">
-            <Detail/>
-          </Route>
-          <Route exact path="/detail">
-            <Detail/>
-          </Route>
-          <Route exact path="/signaler">
-            <Signaler />
-          </Route>
-          <Route path="/notifications">
-            <Notifications />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/home" />
-          </Route>
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="Home" href="/home">
-            <IonIcon icon={home} />
-            <IonLabel>Accueil</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="Signaler" href="/signaler">
-            <IonIcon icon={alert} />
-            <IonLabel>Signaler</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="Notifications" href="/notifications">
-            <NotifTab></NotifTab>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
+      <Switch>
+        <Route path="/login">
+          <Login></Login>
+        </Route>
+        <Route exact path="/">
+          <Redirect to="/homeContainer"></Redirect>
+        </Route>
+        <Route path="/homeContainer" render={props => <HomeContainer {...props}></HomeContainer>}></Route>
+      </Switch>
     </IonReactRouter>
   </IonApp>
 )
