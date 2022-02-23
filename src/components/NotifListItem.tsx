@@ -1,19 +1,19 @@
 import { IonItem, IonLabel, IonNote } from '@ionic/react'
-import { TraitementNotif } from '../pages/Notifications'
+import { TraitementNotif, Notification } from '../pages/Notifications'
 import './NotifListItem.css'
 
 
 interface NotifItemProps {
-  data: TraitementNotif
+  data: Notification
+  customClickEvent: any
 }
 
-const NotifListItem: React.FC<NotifItemProps> = ({ data }) => {
+const NotifListItem: React.FC<NotifItemProps> = ({ data, customClickEvent }) => {
   return (
-    <IonItem routerLink={`/detail/${data.idSignalement}`} detail={false}>
-      <div slot="start" className="dot dot-unread"></div>
+    <IonItem routerLink={`/homeContainer/detail/${data.idSignalement}`} detail={false}>
+      {data.isOpen ? "" : <div slot="start" className="dot dot-unread" onClick={customClickEvent}></div>}
       <IonLabel className="ion-text-wrap">
         <h2>
-          {data.type}
           <span className="date">
             <IonNote>{data.date}</IonNote>
           </span>

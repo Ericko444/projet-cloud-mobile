@@ -1,27 +1,29 @@
 import { IonTabButton, IonIcon, IonLabel } from '@ionic/react'
 import { notifications } from 'ionicons/icons'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import './NotifTab.css'
 import SockJs from 'sockjs-client'
 import { Client, Message, Stomp } from '@stomp/stompjs'
+import { SocketContext } from '../context/socket'
 
-const SOCKET_URL = 'http://localhost:8080/our-websocket'
 const NotifTab: React.FC = () => {
   const [notifs, setNotifs] = useState(0)
+  const SOCKET_URL = 'https://projet-cloud-signal.herokuapp.com/our-websocket';
   const socket = new SockJs(SOCKET_URL)
-  var stompClient = Stomp.over(socket)
-  stompClient.connect({}, onConnected)
+  const  stompClient = Stomp.over(socket);
+  // const socket = useContext(SocketContext);
+  stompClient.connect({}, onConnected);
+  stompClient.activate();
   function onConnected() {
-    console.log('Connected')
+    console.log('Connected in signaler')
   }
   function onError() {
-    console.log('Error')
+    console.log('Error in signaler')
   }
   stompClient.onConnect = function (frame) {
     console.log('In on connect')
-    stompClient.subscribe('/topic/private-notifications/User-5', callback)
+    stompClient.subscribe('/topic/private-notifications/'+localStorage.getItem("idUser"), callback)
   }
-  stompClient.activate()
   var callback = function (message: Message) {
     // called when the client receives a STOMP message from the server
     if (message.body) {

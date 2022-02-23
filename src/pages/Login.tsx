@@ -57,6 +57,8 @@ const Login: React.FC = () => {
       .then((result) => {
         if (result['token']) {
           localStorage.setItem('token', result['token'])
+          localStorage.setItem('idUser', result['id'])
+          localStorage.setItem('login', result['login'])
           history.push('/homeContainer');
         } else {
           console.log(result['message'])

@@ -72,7 +72,12 @@ export function usePhotoGallery() {
     Camera.getPhoto(options).then((imageData) => {
       let base64Image = imageData;
       const newBase64s = [base64Image, ...base64s];
-      setBase64s(newBase64s);
+      if(newBase64s.length <= 6){
+        setBase64s(newBase64s);
+      }
+      else{
+        alert("Le nombre d'image max est de 6");
+      }
     });
     // Storage.set({key: PHOTO_STORAGE,value: JSON.stringify(newPhotos)});
   };

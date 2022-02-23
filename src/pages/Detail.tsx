@@ -61,8 +61,7 @@ const Detail: React.FC = () => {
   // const search = useLocation().search;
   //   const id2 = new URLSearchParams(search).get('id');
   var token =
-    'Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJVc2VyLTE1Iiwic3ViIjoicmFrb3RvYm9iQGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE2NDUxMzM2MDksImV4cCI6MTY0NTczMzYwOX0.qrV2nMJZawIJw148hj0dAio5eWnh54lVXRtyO3jtuACQqlQV3JQCHwjtYll8drViL5kxmZR7SE3lOdVNW9TX7w'
-  var idS = '620f076039f46b53b41f3835'
+    'Bearer '+localStorage.getItem("token");
   // const { id } = useParams();
   let { id } = useParams<{ id: string }>()
   // var id2=match.params.id;
@@ -71,7 +70,7 @@ const Detail: React.FC = () => {
   }, [])
   const SignalementGet = () => {
     // alert(id);
-    fetch('http://localhost:8080/api/signalement/' + id, {
+    fetch('https://projet-cloud-signal.herokuapp.com/api/signalement/' + id, {
       method: 'GET',
       headers: {
         Authorization: token,
@@ -105,9 +104,11 @@ const Detail: React.FC = () => {
                     Region:
                   </IonCol>
                   <IonCol size="8">
-                    {signalement == undefined || signalement.region == null
-                      ? 'Non défini'
-                      : signalement.region}
+                    <IonText>
+                      {(signalement == undefined || signalement.region == null)
+                        ? 'Non défini'
+                        : signalement.region}
+                    </IonText>
                   </IonCol>
                 </IonRow>
               </IonGrid>

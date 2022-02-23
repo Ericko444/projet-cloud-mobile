@@ -14,12 +14,15 @@ import {
   IonToast,
 } from '@ionic/react'
 import { addOutline, trash, close } from 'ionicons/icons'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useLocation } from '../hooks/useLocation'
 import { base64Photo, usePhotoGallery } from '../hooks/usePhotoGallery'
 import './Signaler.css'
 import { useHistory } from 'react-router'
 import MarginHeader from '../components/MarginHeader'
+import SockJs from 'sockjs-client'
+import { Client, Message, Stomp } from '@stomp/stompjs'
+import { SocketContext } from '../context/socket'
 
 interface CustomError {
   showError: boolean
@@ -36,6 +39,7 @@ interface TypeSignalement {
   nom: string
 }
 
+const SOCKET_URL = 'https://projet-cloud-signal.herokuapp.com/our-websocket'
 const Signaler: React.FC = () => {
   useEffect(() => {
     TypeGet()
@@ -54,11 +58,11 @@ const Signaler: React.FC = () => {
   const [error, setError] = useState<CustomError>({ showError: false })
   const [success, setSuccess] = useState<CustomSuccess>({ showSuccess: false })
   const [types, setTypes] = useState<TypeSignalement[]>([])
-  const token =
-    'Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJVc2VyLTE1Iiwic3ViIjoicmFrb3RvYm9iQGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE2NDUzNDE1OTgsImV4cCI6MTY0NTk0MTU5OH0.KY9v-QhdbSk4T0f4OfC3_g4eNUsDCERX7ajZDltrfNgJjfAAEq0qyIw_ZoH8kYN9RicMbGWwbeEiRTLa67-xsw'
+  const [wasReceivedByServer, setWasReceivedByServer] = useState<boolean>(false)
+  const token = 'Bearer '+localStorage.getItem("token");
   const history = useHistory()
   const TypeGet = () => {
-    fetch('http://localhost:8080/api/typesignalement/', {
+    fetch('https://projet-cloud-signal.herokuapp.com/api/typesignalement/', {
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -73,6 +77,31 @@ const Signaler: React.FC = () => {
       })
       .catch((error) => alert('Erreur fetch types'))
   }
+ const SOCKET_URL = 'https://projet-cloud-signal.herokuapp.com/our-websocket';
+ const socket = new SockJs(SOCKET_URL)
+  // const socket = useContext(SocketContext);
+ const  stompClient = Stomp.over(socket);
+  stompClient.connect({}, onConnected);
+  stompClient.activate();
+  function onConnected() {
+    console.log('Connected in signaler')
+  }
+  function onError() {
+    console.log('Error in signaler')
+  }
+  stompClient.onConnect = function (frame) {
+    console.log('In on connect')
+    stompClient.subscribe('/topic/private-messages/'+localStorage.getItem("idUser"), callback)
+  }
+  var callback = function (message: Message) {
+    if (message.body) {
+      setWasReceivedByServer(true)
+      setSuccess({showSuccess: true, message: message.body})
+    } else {
+      console.log('WTF')
+    }
+  }
+
   const uploadSignalement = () => {
     var files: string[] = []
     // photos.forEach(async (photo) => {
@@ -109,7 +138,7 @@ const Signaler: React.FC = () => {
     formData.append('signalement', sign)
     formData.append('images', arr)
 
-    var url = 'http://localhost:8080/api/signalement'
+    var url = 'https://projet-cloud-signal.herokuapp.com/api/signalement'
 
     fetch(url, {
       method: 'POST',
@@ -120,16 +149,23 @@ const Signaler: React.FC = () => {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log(result)
-        setError({ showError: false, message: undefined })
-        setSuccess({
-          showSuccess: true,
-          message: 'Votre signalement a été envoyé',
-        })
-        setBase64s([])
-        setDescription('')
-        setTypeSignalement('')
-        history.push('/home')
+        console.log("wasReceived", wasReceivedByServer);
+        if (wasReceivedByServer) {
+          console.log(result)
+          setError({ showError: false, message: undefined })
+          setSuccess({
+            showSuccess: true,
+            message: 'Votre signalement a été envoyé',
+          })
+          setBase64s([])
+          setDescription('')
+          setTypeSignalement('')
+          setWasReceivedByServer(false)
+          history.push('/homeContainer')
+        }
+        else{
+          setError({ showError: true, message: "Pas inséré" })
+        }
       })
       .catch((error) => setError({ showError: true, message: error }))
 

@@ -8,7 +8,7 @@ const Home: React.FC = () => {
   const [erreur,setErreur]=useState('');
   const [signalements,setSignalements]=useState<any[]>([]);
 
-  var token = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJVc2VyLTE1Iiwic3ViIjoicmFrb3RvYm9iQGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE2NDUxMzM2MDksImV4cCI6MTY0NTczMzYwOX0.qrV2nMJZawIJw148hj0dAio5eWnh54lVXRtyO3jtuACQqlQV3JQCHwjtYll8drViL5kxmZR7SE3lOdVNW9TX7w';
+  var token = 'Bearer '+localStorage.getItem("token");
   useEffect(()=>{
     SignalementGet();
 },[])
@@ -34,7 +34,7 @@ const Home: React.FC = () => {
     }
   }
   const SignalementGet=()=>{
-    fetch("http://localhost:8080/api/signalement/filter/",{
+    fetch("https://projet-cloud-signal.herokuapp.com/api/signalement/filter/",{
       method: 'GET',
       headers: {
         'Authorization':token,
@@ -54,7 +54,8 @@ const Home: React.FC = () => {
         {/* <ExploreContainer name="Home page" /> */}
         <p className="error-message">{erreur}</p>
       <IonContent fullscreen>
-        <MarginHeader></MarginHeader>
+        <br></br>
+        <br></br>
         <IonHeader>
           <IonToolbar>
             <IonTitle>Vos signalements</IonTitle>
@@ -63,7 +64,7 @@ const Home: React.FC = () => {
         <IonListHeader>Liste</IonListHeader>
         <IonList>
           {signalements.map((s,index)=>{
-            var link="/detail/"+s.id;
+            var link="/homeContainer/detail/"+s.id;
             return(
               <IonItem key={index} href={link}>
               <IonGrid className="card-signalement">

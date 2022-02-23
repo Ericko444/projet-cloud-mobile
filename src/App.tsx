@@ -44,6 +44,7 @@ import NotifTab from './components/NotifTab'
 import Login from './pages/Login'
 import ProtectedRoute from './routes/ProtectedRoute'
 import HomeContainer from './components/homeContainer/HomeContainer'
+import {SocketContext, stompClient} from './context/socket';
 
 setupIonicReact()
 

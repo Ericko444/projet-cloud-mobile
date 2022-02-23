@@ -10,7 +10,7 @@ const Header: React.FC = () => {
             </IonAvatar>
             <IonLabel>
               <p>Hello,</p>
-              <h3>RAKOTO Jean</h3>
+              <h3>{localStorage.getItem("login")}</h3>
             </IonLabel>
           </IonItem>
         </IonToolbar>
