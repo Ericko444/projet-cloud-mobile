@@ -45,6 +45,7 @@ import Login from './pages/Login'
 import ProtectedRoute from './routes/ProtectedRoute'
 import HomeContainer from './components/homeContainer/HomeContainer'
 import {SocketContext, stompClient} from './context/socket';
+import Inscription from './pages/Inscription'
 
 setupIonicReact()
 
@@ -54,6 +55,9 @@ const App: React.FC = () => (
       <Switch>
         <Route path="/login">
           <Login></Login>
+        </Route>
+        <Route path="/inscription">
+          <Inscription></Inscription>
         </Route>
         <Route exact path="/">
           <Redirect to="/homeContainer"></Redirect>

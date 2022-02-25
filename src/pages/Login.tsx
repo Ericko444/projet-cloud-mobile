@@ -8,7 +8,7 @@ import {
 import React, { useState } from 'react'
 import { IonGrid, IonRow, IonCol } from '@ionic/react'
 import { personCircle, returnUpBack } from 'ionicons/icons'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
 import {
   IonItem,
   IonLabel,
@@ -129,7 +129,7 @@ const Login: React.FC = () => {
                 Se connecter
               </IonButton>
               <p style={{ fontSize: 'medium' }}>
-                Vous n'avez pas de compte? <a href="#">S'inscrire!</a>
+                Vous n'avez pas de compte? <Link to="/inscription">S'inscrire</Link>
               </p>
             </IonCol>
           </IonRow>
